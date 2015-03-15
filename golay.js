@@ -3,21 +3,13 @@
 
 var morton = require('./morton');
 var cs = require('./cs');
+var pld = require('./pld')(12, 0xAE3);
 
 const POLY = 0xAE3;
 
 // Calculate the [24, 12] Golay codeword for the given 12 input bits.
 function golay(ib) {
-    // We expect 12 input bits
-    ib &= 0xfff;
-    // Calculate the check bits
-    var cb = ib;
-    for (var i = 0; i < 12; ++i) {
-      if (cb & 1)
-        cb ^= POLY;
-      cb >>= 1;
-    }
-    return cw = (cb << 12) | ib;
+  return (pld[ib]<<12) | ib;
 }
 
 function parity(cw) {
@@ -31,7 +23,7 @@ function parity(cw) {
 // 12 bit codewords.
 function encode3(a, b, c, callback) {
   // Split 3 byets into 2 12-bit input bits.
-  var ib1 = (a & 0xff) | ((b & 0xff) << 8);
+  var ib1 = (a & 0xff) | ((b << 8) & 0xf00);
   var ib2 = ((b >> 4) & 0xf) | ((c << 4) & 0xff0);
   // Encode the 2 ibs to two 24-bit code words.
   var cw1 = golay(ib1);
