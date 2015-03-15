@@ -23,10 +23,7 @@ function golay(ib) {
 function parity(cw) {
     // Calculate the parity bit
     var p = cw ^ (cw >> 8) ^ (cw >> 16);
-    p ^= (p>>4);
-    p ^= (p>>2);
-    p ^= (p>>1);
-    return (p & 1);
+    return ((p>>4)^(p>>2)^(p>>1))&1;
 }
 
 // Golay codes are prone to burst errors so we interleave 2 adjacent
