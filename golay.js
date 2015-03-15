@@ -2,6 +2,7 @@
 /* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */
 
 var morton = require('./morton');
+var cs = require('./cs');
 
 const POLY = 0xAE3;
 
@@ -75,36 +76,6 @@ function weight(cw) {
   return bits;
 }
 
-// Rotate a 23 bit codeword left by n bits.
-function rol(cw, n) {
-  cw = ((cw << n) & 0x3fffff) | (cw >> (23 - n));
-
-  if (n) {
-    for (var i = 1; i <= n; ++i) {
-      if ((cw & 0x400000) != 0) {
-        cw = (cw << 1) | 1;
-      } else {
-        cw <<= 1;
-      }
-    }
-  }
-  return cw & 0x7fffff;
-}
-
-// Rotate a 23 bit codeword right by n bits.
-function ror(cw, n) {
-  if (n) {
-    for (var i = 1; i <= n; ++i) {
-      if ((cw & 1) != 0) {
-        cw = (cw >> 1) | 0x400000;
-      } else {
-        cw >>= 1;
-      }
-    }
-  }
-  return cw & 0x7fffff;
-} 
-
 // Return a corrected code word for 3 or fewer errors. The number of
 // errors corrected is in the topmost nibble.
 function correct(cw) {
@@ -129,12 +100,12 @@ function correct(cw) {
     for (i = 0; i < 23; ++i) { // check syndrome of each cyclic shift
       if ((errs = weight(s)) <= w) { // syndrome matches error pattern
         cw = cw ^ s; // remove error
-        cw = ror(cw, i); // unrotate data
+        cw = cs.ror(cw, i); // unrotate data
         if (j >= 0) // count toggled bit
           errs++;
         return cw | (errs << 28);
       }
-      cw = rol(cw, 1); // rotate to next pattern
+      cw = cs.rol(cw, 1); // rotate to next pattern
       s = syndrome(cw); // calculate new syndrome
     }
   }
