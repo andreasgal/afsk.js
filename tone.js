@@ -27,4 +27,6 @@ ToneGenerator.prototype = {
   },
 };
 
-module.exports = ToneGenerator;
+module.exports = {
+  ToneGenerator: ToneGenerator,
+};

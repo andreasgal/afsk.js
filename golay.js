@@ -19,7 +19,7 @@ function parity(cw) {
 
 // Golay codes are prone to burst errors so we interleave 2 adjacent
 // code words. This actally also helps with streaming byte data through
-// 12 bit codewords.
+// 12 bit codewords. The result are two 24 bit codewords.
 function encode3(a, b, c, callback) {
   // Split 3 byets into 2 12-bit input bits.
   var ib1 = (a & 0xff) | ((b << 8) & 0xf00);
@@ -33,8 +33,8 @@ function encode3(a, b, c, callback) {
   // Interleave the low 16 bits of the code words (p) and the high 8 bit (q).
   var p = morton.interleave16(cw1 & 0xffff, cw2 & 0xffff);
   var q = morton.interleave16((cw1 >> 16) & 0xff, (cw2 >> 16) & 0xff);
-  callback((q >> 8) & 0xff, q & 0xff,
-           (p >> 24) & 0xff, (p >> 16) & 0xff, (p >> 8) & 0xff, p & 0xff);
+  callback((p & 0xffff) | ((q << 16) & 0xff0000),
+           ((p >> 16) & 0xffff) | ((q << 8) & 0xff0000));
 }
 
 // Calculate the number of bit errors in the code word.
@@ -97,9 +97,9 @@ function decode(cw) {
 
 // Decode two interleaved code words and produce 3 bytes if we can
 // recover the information.
-function decode3(a, b, c, d, e, f, callback) {
-  var q = ((a & 0xff) << 8) | (b & 0xff);
-  var p = ((c & 0xff) << 24) | ((d & 0xff) << 16) | ((e & 0xff) << 8) | (f & 0xff);
+function decode3(x, y, callback) {
+  var p = (x & 0xffff) | ((y << 16) & 0xffff0000);
+  var q = ((x >> 16) & 0xff) | ((y >> 8) & 0xff00);
   var cwh12 = morton.deinterleave16(q);
   var cwl12 = morton.deinterleave16(p);
   var cw1 = (cwl12 & 0xffff) | ((cwh12 & 0xff) << 16);

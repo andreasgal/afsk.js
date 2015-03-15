@@ -26,8 +26,8 @@ exports.test = function (test) {
               c ^= 0x10;
               break;
             }
-            golay.encode3(a, b, c, function (p, q, r, s, t, u) {
-              golay.decode3(p, q, r, s, t, u, function (e, x, y, z) {
+            golay.encode3(a, b, c, function (p, q) {
+              golay.decode3(p, q, function (e, x, y, z) {
                 if (e != err, a != x || b != y || c != z) {
                   console.log(a, b, c, x, y, z);
                   ok = false;
