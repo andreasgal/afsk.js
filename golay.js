@@ -1,6 +1,8 @@
 /* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
 /* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */
 
+// Credit: Hank Wallace, http://www.aqdi.com/golay.htm
+
 var morton = require('./morton');
 var cs = require('./cs');
 var pld = require('./pld')(12, 0xAE3);
