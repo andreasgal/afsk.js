@@ -12,7 +12,7 @@ function golay(ib) {
     ib &= 0xfff;
     // Calculate the check bits
     var cb = ib;
-    for (var i = 1; i <= 12; ++i) {
+    for (var i = 0; i < 12; ++i) {
       if (cb & 1)
         cb ^= POLY;
       cb >>= 1;
@@ -49,7 +49,7 @@ function encode3(a, b, c, callback) {
 // Calculate the number of bit errors in the code word.
 function syndrome(cw) {
   cw &= 0x7fffff;
-  for (var i = 1; i <= 12; ++i) {
+  for (var i = 0; i < 12; ++i) {
     if (cw & 1)
       cw ^= POLY;
     cw >>= 1;
