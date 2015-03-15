@@ -77,6 +77,8 @@ function weight(cw) {
 
 // Rotate a 23 bit codeword left by n bits.
 function rol(cw, n) {
+  cw = ((cw << n) & 0x3fffff) | (cw >> (23 - n));
+
   if (n) {
     for (var i = 1; i <= n; ++i) {
       if ((cw & 0x400000) != 0) {
