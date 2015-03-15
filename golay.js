@@ -42,19 +42,12 @@ function syndrome(cw) {
   return pld[cw] << 12;
 }
 
-var wgt = [0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4];
+var w = [0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4];
 
 // Calculate the weight of a 23 bit codeword.
 function weight(cw) {
-  var bits = 0;
-  var k = 0;
-  // Up to 6 nibbles.
-  while ((k < 6) && cw) {
-    bits += wgt[cw & 0xf];
-    cw >>= 4;
-    k++;
-  }
-  return bits;
+  return w[cw & 0xf] + w[(cw >> 4) & 0xf] + w[(cw >> 8) & 0xf] +
+    w[(cw >> 12) & 0xf] + w[(cw >> 16) & 0xf] + w[(cw >> 20) & 0xf];
 }
 
 // Return a corrected code word for 3 or fewer errors. The number of
