@@ -165,7 +165,7 @@ function decode3(a, b, c, d, e, f, callback) {
   cw2 &= 0xffffff;
   if (parity(cw1) || parity(cw2)) // odd parity is an error
     return false;
-  callback(errs, cw1 & 0xff, ((cw1 >> 8) & 0xf) | (cw2 & 0xf), (cw2 >> 4) & 0xff);
+  callback(errs, cw1 & 0xff, ((cw1 >> 8) & 0xf) | ((cw2 & 0xf) << 4), (cw2 >> 4) & 0xff);
   return true;
 }
 
