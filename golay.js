@@ -12,6 +12,7 @@ function golay(ib) {
   return (pld[ib]<<12) | ib;
 }
 
+// Calculate the parity for a 24 bit code word.
 function parity(cw) {
     // Calculate the parity bit
     var p = cw ^ (cw >> 8) ^ (cw >> 16);
