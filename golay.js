@@ -5,8 +5,6 @@ var morton = require('./morton');
 var cs = require('./cs');
 var pld = require('./pld')(12, 0xAE3);
 
-const POLY = 0xAE3;
-
 // Calculate the [24, 12] Golay codeword for the given 12 input bits.
 function golay(ib) {
   return (pld[ib]<<12) | ib;
