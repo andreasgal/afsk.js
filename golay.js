@@ -41,7 +41,6 @@ function encode3(a, b, c, callback) {
 
 // Calculate the number of bit errors in the code word.
 function syndrome(cw) {
-  cw &= 0x7fffff;
   for (var i = 0; i < 12; ++i) {
     if (cw & 1)
       cw ^= POLY;
