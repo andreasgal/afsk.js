@@ -46,7 +46,6 @@ var wgt = [0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4];
 
 // Calculate the weight of a 23 bit codeword.
 function weight(cw) {
-  cw &= 0x7fffff;
   var bits = 0;
   var k = 0;
   // Up to 6 nibbles.
