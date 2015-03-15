@@ -1,7 +1,7 @@
 {
   "name": "afsk.js",
   "version": "1.0.0",
-  "description": "1200 baud AFSK modem with a [24,12] Golay code",
+  "description": "1200 baud AFSK soft modem with forward error correction",
   "main": "afsk.js",
   "directories": {
     "test": "tests"
